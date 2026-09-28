@@ -1,0 +1,36 @@
+using UnityEngine;
+
+public class PlayerRespawn : MonoBehaviour
+{
+    private Vector3 respawnPosition;
+    private Rigidbody2D rb;
+
+    private void Awake()
+    {
+        // The player's starting position is the first respawn point.
+        respawnPosition = transform.position;
+
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void SetRespawnPoint(Vector3 newPosition)
+    {
+        respawnPosition = newPosition;
+
+        Debug.Log("Respawn point updated to: " + respawnPosition);
+    }
+
+    public void Respawn()
+    {
+        // Stop existing movement before teleporting.
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+        }
+
+        transform.position = respawnPosition;
+
+        Debug.Log("Player respawned.");
+    }
+}
