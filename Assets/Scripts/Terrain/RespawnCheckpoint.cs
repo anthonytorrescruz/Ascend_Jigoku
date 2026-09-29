@@ -1,16 +1,26 @@
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class RespawnCheckpoint : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Transform respawnPoint;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
+        PlayerRespawn playerRespawn =
+            other.GetComponentInParent<PlayerRespawn>();
+
+        if (playerRespawn == null)
+            return;
+
+        Vector3 newRespawnPosition;
+
+        if (respawnPoint != null)
+            newRespawnPosition = respawnPoint.position;
+        else
+            newRespawnPosition = transform.position;
+
+        playerRespawn.SetRespawnPoint(newRespawnPosition);
+
+        Debug.Log("Checkpoint activated: " + gameObject.name);
     }
 }
