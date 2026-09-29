@@ -2,14 +2,16 @@ using UnityEngine;
 
 public class DamageZone : MonoBehaviour
 {
+    [SerializeField] private int damageAmount = 1;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        PlayerRespawn playerRespawn =
-            other.GetComponentInParent<PlayerRespawn>();
+        PlayerHealth playerHealth =
+            other.GetComponentInParent<PlayerHealth>();
 
-        if (playerRespawn != null)
+        if (playerHealth != null)
         {
-            playerRespawn.Respawn();
+            playerHealth.TakeDamage(damageAmount, true);
         }
     }
 }
