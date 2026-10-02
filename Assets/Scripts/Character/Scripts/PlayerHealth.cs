@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -35,12 +36,26 @@ public class PlayerHealth : MonoBehaviour
 
         HealthChanged?.Invoke(currentHealth, maxHealth);
 
+        // If the player has no health left, restart the current scene.
+        if (currentHealth <= 0)
+        {
+            Die();
+            return;
+        }
+
+        // If the player is still alive, respawn at the latest checkpoint.
         if (respawnAfterDamage && playerRespawn != null)
         {
             playerRespawn.Respawn();
         }
+    }
 
-        // Nothing happens at 0 health yet.
-        // Death behavior can be added here later.
+    private void Die()
+    {
+        Debug.Log("Player died. Restarting scene.");
+
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
     }
 }
